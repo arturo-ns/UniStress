@@ -12,7 +12,7 @@ import {
 
 // Navegación y UI
 import { cambioSeccion } from './navigation.js';
-import { notificaciones } from './notificacion.js';
+import { notificaciones } from './notificaciones.js';
 import { chatbot } from './chatbot.js';
 
 // Test psicológico
