@@ -20,6 +20,17 @@
   
 ---
 
+## 🧪 Cuenta de prueba con datos históricos
+
+> Puedes usar esta cuenta para probar la plataforma:
+
+**Correo:** fokove3232@2mik.com  
+**Contraseña:** 12345678  
+
+Esta cuenta ya contiene emociones registradas y acceso a funcionalidades activas para exploración completa.
+
+---
+
 ## 🔐 Registro y verificación
 
 Al registrarte en la plataforma, recibirás un **correo de verificación**.  
@@ -41,5 +52,3 @@ Debes confirmar ese correo para completar exitosamente la creación de tu cuenta
 - Andy Pillaca  
 - Angelina Barrientos 
 - Esteban Lopez
-
----
