@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UniStress</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+  <!-- Favicon básico -->
+  <link rel="icon" type="image/png" sizes="32x32" href="img/icons/favicon-32x32.png">
+  <link rel="shortcut icon" href="img/icons/favicon.ico">
+
+  <!-- Apple y Android -->
+  <link rel="apple-touch-icon" sizes="180x180" href="img/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="img/icons/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="img/icons/android-chrome-512x512.png">
+
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="img/icons/site.webmanifest">
+</head>
+<body>
+  <!-- =================== Contenedor Principal =================== -->
+  <div class="d-flex" id="dashboard-wrapper">
+
+    <!-- ========== Sidebar ========== -->
+    <nav id="sidebar" class="sidebar shadow-sm">
+      <div class="sidebar-header text-center py-4">
+        <h4 class="fw-bold">UniStress</h4>
+      </div>
+      <ul class="nav flex-column px-3">
+        <li class="nav-item">
+          <a href="#" class="nav-link btn-seccion Action" data-seccion="perfil">Perfil</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link btn-seccion" data-seccion="test">Test</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link btn-seccion" data-seccion="estadoEmocional">Estado emocional</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link btn-seccion" data-seccion="recursosPsicoeducativos">Recursos psicoeducativos</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link btn-seccion" data-seccion="comunidad">Comunidad UniStress</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link btn-seccion" data-seccion="notificaciones">Notificaciones</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link btn-seccion" data-seccion="configuracion">Configuración</a>
+        </li>
+        <li class="nav-item mt-3">
+          <a href="#" id="btnCerrarSesion" class="nav-link fw-bold">Cerrar sesión</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- ========== Contenido Principal ========== -->
+    <div id="main-content" class="p-4 w-100">
+
+      <!-- ========== Sección Perfil ========== -->
+      <section id="perfil" class="container py-4 seccionDashboard">
+        <div class="row align-items-center mb-4">
+          <div class="col-md-3 d-flex flex-column align-items-center">
+            <img id="foto-perfil" src="img/perfil.png" class="rounded-circle" width="100" height="100" alt="Foto de perfil">
+            <button class="btn btn-personalizado btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#modalFotoPerfil">Cambiar Foto</button>
+          </div>
+          <div class="col-md-6">
+            <h3 id="nombreUsuarioTexto">Juan Pérez</h3>
+            <p>Cuenta: <span id="tipoCuenta" class="badge-mint">Premium</span></p>
+            <p>Correo: <span id="correoUsuario">juan.perez@email.com</span></p>
+            <p>Fecha de nacimiento: <span id="fechaNacimientoUsuario">12/07/2000</span></p>
+            <p>Género: <span id="generoUsuario">Masculino</span></p>
+            <p>Carrera: <span id="carreraUsuarioTexto">No especificada</span></p>
+            <p>Universidad: <span id="universidadUsuarioTexto">No especificada</span></p>
+            <button class="btn btn-personalizado" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Editar Perfil</button>
+          </div>
+          <!-- Termómetro emocional -->
+          <div class="col-md-3 d-flex align-items-center justify-content-center">
+            <div id="termometro-emocional-container" class="text-center">
+              <div id="termometro" class="mx-auto mb-2">
+                <div id="rellenoTermometro"></div>
+              </div>
+              <p class="mb-1 texto-secundario">Promedio emocional</p>
+              <h4 id="valorTermometro" class="text-primary">0.0</h4>
+            </div>
+          </div>
+
+        </div>
+        <p class="texto-secundario">Aquí puedes ver y actualizar tus datos personales y tu foto de perfil en UniStress.</p>
+      </section>
+
+
+      <!-- ========== Sección Test ========== -->
+      <section id="test" class="container py-4 seccionDashboard">
+        <h4 class="mb-3">Test de Estrés Académico</h4>
+        <form id="formTest">
+          <p class="texto-secundario mb-3">Responde en una escala del 1 (nada de acuerdo) al 5 (totalmente de acuerdo):</p>
+          <div class="mb-3">
+            <!-- Preguntas del 1 al 10 -->
+            <div id="preguntasTest"></div>
+          </div>
+          <button type="submit" class="btn btn-personalizado">
+            Calcular Resultado
+          </button>
+        </form>
+        <div id="resultadoTest" class="mt-4"></div>
+      </section>
+
+
+      <!-- ========== Sección: Estado Emocional ========== -->
+      <section id="estadoEmocional" class="container py-4 seccionDashboard">
+        <h2 class="mb-4">Estado Emocional</h2>
+
+        <!-- 1. Registro Diario de Emociones -->
+        <div class="card custom-card mb-4">
+          <div class="card-header custom-card-header">
+            <strong>Registro Diario</strong>
+          </div>
+          <div class="card-body">
+            <form id="formRegistroEmocion">
+              <div class="mb-3">
+                <label class="form-label">¿Cómo te sientes hoy?</label>
+                <div class="d-flex flex-wrap gap-3">
+                  <label class="emotion-option">
+                    <input type="radio" name="emocion" value="Feliz">
+                    <span>😊</span>
+                  </label>
+                  <label class="emotion-option">
+                    <input type="radio" name="emocion" value="Triste">
+                    <span>😢</span>
+                  </label>
+                  <label class="emotion-option">
+                    <input type="radio" name="emocion" value="Enojado">
+                    <span>😠</span>
+                  </label>
+                  <label class="emotion-option">
+                    <input type="radio" name="emocion" value="Ansioso">
+                    <span>😨</span>
+                  </label>
+                  <label class="emotion-option">
+                    <input type="radio" name="emocion" value="Neutral">
+                    <span>😐</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="notaEmocion" class="form-label">¿Quieres escribir algo sobre tu día?</label>
+                <textarea id="notaEmocion" class="form-control" rows="3" placeholder="Opcional..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-personalizado">Guardar emoción</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- 2. Historial de Emociones -->
+        <div class="card custom-card mb-4">
+          <div class="card-header custom-card-header">
+            <strong>Historial de Emociones</strong>
+          </div>
+          <div class="card-body">
+            <canvas id="graficoEmociones" height="150"></canvas>
+          </div>
+        </div>
+
+        <!-- 3. Recomendaciones -->
+        <div class="card custom-card">
+          <div class="card-header custom-card-header">
+            <strong>Recomendaciones Personalizadas</strong>
+          </div>
+          <div class="card-body" id="recomendacionesEmocionales">
+            <p class="texto-secundario">Registra tu emoción de hoy para ver recomendaciones personalizadas.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ========== Sección: Recursos Psicoeducativos ========== -->
+      <section id="recursosPsicoeducativos" class="container py-4 seccionDashboard">
+        <h2 class="mb-4">Recursos Psicoeducativos</h2>
+
+        <!-- 1. Biblioteca de Artículos -->
+        <div class="card custom-card mb-4">
+          <div class="card-header custom-card-header">
+            <strong>Biblioteca de Artículos</strong>
+          </div>
+          <div class="card-body" id="contenedorArticulos">
+            <ul class="list-group custom-list-group" id="listaArticulos">
+              <li class="list-group-item custom-list-item">
+                <a href="#" target="_blank">Cómo manejar el estrés académico</a>
+              </li>
+              <li class="list-group-item custom-list-item">
+                <a href="#" target="_blank">Técnicas de relajación para estudiantes</a>
+              </li>
+              <li class="list-group-item custom-list-item">
+                <a href="#" target="_blank">El autocuidado emocional en la vida universitaria</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 2. Videos y Audios Recomendados -->
+        <div class="card custom-card mb-4">
+          <div class="card-header custom-card-header">
+            <strong>Videos y Audios Recomendados</strong>
+          </div>
+          <div class="card-body" id="contenedorVideosAudios">
+          </div>
+        </div>
+
+        <!-- 3. Herramientas Prácticas -->
+        <div class="card custom-card">
+          <div class="card-header custom-card-header">
+            <strong>Herramientas Prácticas</strong>
+          </div>
+          <div class="card-body" id="contenedorHerramientas">
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ========== Sección: Comunidad UniStress ========== -->
+      <section id="comunidad" class="container py-4 seccionDashboard">
+        <h2 class="mb-4">Comunidad UniStress</h2>
+
+        <!-- 1. Grupos de Apoyo Temáticos -->
+        <div class="card  custom-card mb-4">
+          <div class="card-header custom-card-header">
+            <strong>Grupos de Apoyo</strong>
+          </div>
+          <div class="card-body">
+            <ul class="list-group custom-list-group" id="listaGruposApoyo">
+              <li class="list-group-item custom-list-item">
+                <a href="#" class="grupo-apoyo-link">🌱 Manejo del Estrés Académico</a>
+              </li>
+              <li class="list-group-item custom-list-item">
+                <a href="#" class="grupo-apoyo-link">😟 Ansiedad y Salud Mental</a>
+              </li>
+              <li class="list-group-item custom-list-item">
+                <a href="#" class="grupo-apoyo-link">💬 Autoestima y Crecimiento Personal</a>
+              </li>
+              <li class="list-group-item custom-list-item">
+                <a href="#" class="grupo-apoyo-link">🧘 Técnicas de Relajación y Mindfulness</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 2. Desafíos Emocionales -->
+        <div class="card custom-card mb-4">
+          <div class="card-header custom-card-header">
+            <strong>Desafío Emocional de la Semana</strong>
+          </div>
+          <div class="card-body" id="desafioSemanal">
+          </div>
+        </div>
+
+        <!-- 3. Frases Motivacionales Rotativas -->
+        <div class="card custom-card mb-4">
+          <div class="card-header custom-card-header">
+            <strong>Frase Motivacional</strong>
+          </div>
+          <div class="card-body text-center" id="fraseMotivacional">
+            <blockquote class="blockquote mb-0">
+              <p id="textoFrase" class="fs-5 fst-italic text-secondary"></p>
+            </blockquote>
+          </div>
+        </div>
+
+        <!-- 4. Espacio de Escucha Anónima -->
+        <div class="card custom-card">
+          <div class="card-header custom-card-header">
+            <strong>Espacio de Escucha Anónima</strong>
+          </div>
+          <div class="card-body">
+            <form id="formEscuchaAnonima">
+              <div class="mb-3">
+                <label for="mensajeAnonimo" class="form-label">Comparte tus pensamientos de forma anónima</label>
+                <textarea id="mensajeAnonimo" class="form-control" rows="3" placeholder="Escribe lo que sientes..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-personalizado">Enviar</button>
+            </form>
+            <hr>
+            <h6 class="mt-4">Mensajes Recientes:</h6>
+            <ul id="listaMensajesAnonimos" class="list-group mt-2"></ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ========== Sección: Notificaciones ========== -->
+      <section id="notificaciones" class="container py-4 seccionDashboard">
+        <h2 class="mb-4">Notificaciones</h2>
+
+        <div class="card custom-card">
+          <div class="card-header custom-card-header">
+            <strong>Centro de Notificaciones</strong>
+          </div>
+          <div class="card-body">
+            <ul class="list-group" id="listaNotificaciones">
+              <!-- Las notificaciones se cargarán dinámicamente -->
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ========== Sección: Configuración ========== -->
+      <section id="configuracion" class="container py-4 seccionDashboard">
+        <h2 class="mb-4">Configuración</h2>
+
+        <!-- 1. Modo Claro/Oscuro -->
+        <div class="card custom-card mb-4">
+          <div class="card-header custom-card-header">
+            <strong>Modo Claro / Oscuro</strong>
+          </div>
+          <div class="card-body d-flex align-items-center justify-content-between">
+            <span>Activar modo oscuro</span>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="toggleModoOscuro">
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Tema Personalizado / Colores de Acento -->
+        <div class="card custom-card mb-4">
+          <div class="card-header custom-card-header">
+            <strong>Color de Acento</strong>
+          </div>
+          <div class="card-body">
+            <label for="selectorColorAcento" class="form-label">Elige tu color preferido:</label>
+            <select id="selectorColorAcento" class="form-select">
+              <option value="#0d6efd">Azul (predeterminado)</option>
+              <option value="#198754">Verde</option>
+              <option value="#dc3545">Rojo coral</option>
+              <option value="#6f42c1">Morado</option>
+              <option value="#fd7e14">Naranja</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 3. Selector de Idioma -->
+        <div class="card custom-card mb-4">
+          <div class="card-header custom-card-header">
+            <strong>Idioma</strong>
+          </div>
+          <div class="card-body">
+            <label for="selectorIdioma" class="form-label">Selecciona tu idioma:</label>
+            <select id="selectorIdioma" class="form-select">
+              <option value="es">Español</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 4. Control de Notificaciones -->
+        <div class="card custom-card mb-4">
+          <div class="card-header custom-card-header">
+            <strong>Notificaciones</strong>
+          </div>
+          <div class="card-body d-flex align-items-center justify-content-between">
+            <span>Habilitar notificaciones del sistema</span>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="toggleNotificaciones">
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Eliminar cuenta -->
+        <div class="card custom-card">
+          <div class="card-header custom-card-header">
+            <strong>Cuenta</strong>
+          </div>
+          <div class="card-body">
+            <button id="btnEliminarCuenta" class="btn btn-danger">Eliminar cuenta</button>
+          </div>
+        </div>
+      </section>
+      
+    </div>
+    
+    <!-- ========== Chatbot ========== -->
+    <!-- Botón flotante -->
+    <button id="btnAbrirChatbot" class="chatbot-toggle">💬</button>
+
+    <!-- Ventana del chatbot -->
+    <div id="chatbotVentana" class="chatbot-ventana">
+      <div class="chatbot-header">
+        UniBot - Apoyo emocional
+        <span id="cerrarChatbot" style="float:right; cursor:pointer;">✖</span>
+      </div>
+      <div id="chatbotHistorial" class="chatbot-historial"></div>
+      <form id="formChatbot">
+        <input type="text" id="inputChatbot" placeholder="Escribe aquí..." required />
+      </form>
+    </div>
+
+  <!-- ========== Modal Foto Perfil ========== -->
+  <div class="modal fade" id="modalFotoPerfil" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cambiar Foto de Perfil</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img id="previewFotoPerfil" src="img/perfil.png" class="rounded-circle mb-3" width="120" height="120" alt="Preview Foto">
+          <input type="file" class="form-control" id="inputFotoPerfil" accept="image/*">
+          <p class="texto-secundario mt-2">Elige una imagen PNG o JPG (máx. 2MB).</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-personalizado" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-personalizado" id="guardarFotoPerfil">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== Modal Editar Perfil ========== -->
+  <div class="modal fade" id="modalEditarPerfil" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar Perfil</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formEditarPerfil">
+            <div class="mb-3">
+              <label for="nombreUsuarioInput" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombreUsuarioInput">
+            </div>
+            <div class="mb-3">
+              <label for="apellidoUsuarioInput" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="apellidoUsuarioInput">
+            </div>
+            <div class="mb-3">
+              <label for="correoUsuarioInput" class="form-label">Correo</label>
+              <input type="email" class="form-control" id="correoUsuarioInput">
+            </div>
+            <div class="mb-3">
+              <label for="carreraUsuario" class="form-label">Carrera</label>
+              <input type="text" class="form-control" id="carreraUsuario">
+            </div>
+            <div class="mb-3">
+              <label for="universidadUsuario" class="form-label">Universidad</label>
+              <input type="text" class="form-control" id="universidadUsuario">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-personalizado" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-personalizado" form="formEditarPerfil">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Confirmar Cierre de Sesión -->
+  <div class="modal fade" id="modalConfirmarCerrarSesion" tabindex="-1" aria-labelledby="modalCerrarSesionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title" id="modalCerrarSesionLabel">¿Cerrar sesión?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas cerrar sesión?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-personalizado" data-bs-dismiss="modal">Cancelar</button>
+          <button id="confirmarCerrarSesion" type="button" class="btn btn-warning">Sí, cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal: Confirmar eliminación de cuenta -->
+  <div class="modal fade" id="modalConfirmarEliminarCuenta" tabindex="-1" aria-labelledby="modalEliminarCuentaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title text-white" id="modalEliminarCuentaLabel">¿Eliminar cuenta?</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          Esta acción eliminará todos tus datos de la aplicación. ¿Deseas continuar?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-personalizado" data-bs-dismiss="modal">Cancelar</button>
+          <button id="confirmarEliminarCuenta" type="button" class="btn btn-danger">Sí, eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========== Scripts ========== -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script type="module" src="script/main.js"></script>
+</body>
+</html>
+
+
