@@ -1,4 +1,4 @@
-import { supabase } from './utils.js';
+import { supabase } from './assets/scripts/utils.js';
 
 // Usuario
 import {
@@ -8,32 +8,32 @@ import {
   manejarEdicionPerfil,
   manejarCerrarSesion,
   iniciarTourIntroJS
-} from './usuario.js';
+} from './assets/scripts/usuario.js';
 
 // Navegación y UI
-import { cambioSeccion } from './navigation.js';
+import { cambioSeccion } from './assets/scripts/navigation.js';
 import { notificaciones } from './assets/scripts/notificacion.js';
-import { chatbot } from './chatbot.js';
+import { chatbot } from './assets/scripts/chatbot.js';
 
 // Test psicológico
-import { formularioTest } from './test.js';
+import { formularioTest } from './assets/scripts/test.js';
 
 // Emociones
 import {
   registroEmocional,
   graficoEmociones,
   recomendacionesPersonalizadas
-} from './emociones.js';
+} from './assets/scripts/emociones.js';
 
 // Comunidad
 import {
   fraseMotivacional,
   desafioDiario,
   mensajesAnonimos
-} from './comunidad.js';
+} from './assets/scripts/comunidad.js';
 
 // Recursos psicoeducativos
-import { recursosPsicoeducativos } from './recursos.js';
+import { recursosPsicoeducativos } from './assets/scripts/recursos.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Inicialización general
