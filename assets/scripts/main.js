@@ -68,6 +68,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   notificaciones();
   chatbot();
 
+
+   // Botón para mostrar/ocultar sidebar en móvil
+  document.getElementById('toggleSidebarBtn')?.addEventListener('click', () => {
+    const sidebar = document.getElementById('sidebar');
+    const icon = document.getElementById('toggleIcon');
+
+    sidebar.classList.toggle('mostrar');
+    icon.textContent = sidebar.classList.contains('mostrar') ? '×' : '☰';
+  });
+
+  document.querySelectorAll('#sidebar .btn-seccion').forEach(boton => {
+  boton.addEventListener('click', () => {
+    if (window.innerWidth < 768) {
+      document.getElementById('sidebar')?.classList.remove('mostrar');
+      document.getElementById('toggleIcon').textContent = '☰';
+    }
+  });
+  });
+
   // Tour interactivo (solo si no ha sido visto)
   const { data: sessionData } = await supabase.auth.getSession();
   const userId = sessionData?.session?.user?.id;
