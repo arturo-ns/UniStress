@@ -1,5 +1,6 @@
 import { supabase } from './utils.js';
 import { notificarUsuario } from './notificacion.js';
+import { traducciones } from './i18n.js';
 
 /* ========== Test psicológico ========== */
 export function formularioTest() {
@@ -9,18 +10,8 @@ export function formularioTest() {
 
   if (!form || !resultado || !contenedorPreguntas) return;
 
-  const preguntas = [
-    "Me siento abrumado por la cantidad de tareas académicas.",
-    "Me cuesta concentrarme en mis estudios debido al estrés.",
-    "Siento que no tengo suficiente tiempo para cumplir con mis obligaciones académicas.",
-    "Me siento ansioso(a) antes de los exámenes o entregas.",
-    "Tengo dificultades para dormir por preocupaciones académicas.",
-    "Evito estudiar porque me siento saturado(a).",
-    "Me siento frustrado(a) con mi rendimiento académico.",
-    "He pensado en abandonar alguna materia por estrés.",
-    "Siento que pierdo el control cuando tengo muchas tareas.",
-    "Me siento agotado(a) emocionalmente por la universidad."
-  ];
+  const idioma = localStorage.getItem('idioma') || 'es';
+  const preguntas = traducciones[idioma].test.preguntas;
 
   generarPreguntas(contenedorPreguntas, preguntas);
 
