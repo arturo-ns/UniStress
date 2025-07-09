@@ -9,6 +9,12 @@ document.getElementById('formRegistro').addEventListener('submit', async functio
   e.preventDefault();
   console.log('📩 Enviando formulario...');
 
+  const btn = document.getElementById('btnRegistro');
+  if (!btn) return; // verifica que exista el boton para que siga ejecutandose
+
+  btn.disabled = true;
+  btn.textContent = 'Registrando...';
+
   const nombre = document.getElementById('nombre').value.trim();
   const apellido = document.getElementById('apellido').value.trim();
   const fechaNacimiento = document.getElementById('fecha').value;
@@ -21,6 +27,8 @@ document.getElementById('formRegistro').addEventListener('submit', async functio
 
   if (password !== confirmar) {
     notificarUsuario('Las contraseñas no coinciden', 'error');
+    btn.disabled = false;
+    btn.textContent = 'Registrarse';
     return;
   }
 
@@ -37,6 +45,8 @@ document.getElementById('formRegistro').addEventListener('submit', async functio
   if (signUpError) {
     console.error('❌ Error en Auth:', signUpError.message);
     notificarUsuario('Error al registrar usuario: ' + signUpError.message, 'error');
+    btn.disabled = false;
+    btn.textContent = 'Registrarse';
     return;
   }
 
@@ -61,8 +71,7 @@ document.getElementById('formRegistro').addEventListener('submit', async functio
 
   notificarUsuario('Cuenta creada correctamente. Revisa tu correo y confirma tu email.', 'exito');
 
-  // Redirige con leve retraso para que se vea el toast
   setTimeout(() => {
     window.location.href = 'login.html';
-  }, 2000);
+  }, 2500);
 });
