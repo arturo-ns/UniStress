@@ -22,7 +22,8 @@ import { formularioTest } from './test.js';
 import {
   registroEmocional,
   graficoEmociones,
-  recomendacionesPersonalizadas
+  recomendacionesPersonalizadas,
+  descargarHistorialEmociones
 } from './emociones.js';
 
 // Comunidad
@@ -34,6 +35,8 @@ import {
 
 // Recursos psicoeducativos
 import { recursosPsicoeducativos } from './recursos.js';
+
+import {  } from './configuracion.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Inicialización general
@@ -50,6 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   formularioTest();
   registroEmocional();
   graficoEmociones();
+  descargarHistorialEmociones();
   recomendacionesPersonalizadas();
 
   // Recursos
