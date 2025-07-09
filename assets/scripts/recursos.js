@@ -27,6 +27,11 @@ export async function recursosPsicoeducativos() {
   const listaArticulos = document.getElementById('listaArticulos');
   const listaVideos = document.getElementById('contenedorVideosAudios');
   const listaHerramientas = document.getElementById('contenedorHerramientas');
+  // Detener ejecución si no están presentes
+  if (!contenedorArticulos || !listaVideos || !listaHerramientas) {
+    console.warn("⛔ Elementos DOM aún no cargados, no se muestran recursos.");
+    return;
+  }
 
   if (!emocion) {
     contenedorArticulos.innerHTML = '<p class="text-muted">Registra tu emoción de hoy para ver articulos personalizados.</p>';
