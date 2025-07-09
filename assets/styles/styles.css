@@ -566,6 +566,64 @@ footer .d-flex a:hover .social-icon {
   color: #ffffff;
 }
 
+/* Sidebar en móviles */
+@media (max-width: 767.98px) {
+  #sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100%;
+    background-color: var(--color-blanco);
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  #sidebar.mostrar {
+    transform: translateX(0);
+  }
+
+  .toggle-sidebar-btn {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 1001;
+    background-color: var(--bs-primary);
+    color: white;
+    border: none;
+    border-radius: 6px; /* más suave que circular */
+    width: 28px; /* más pequeño */
+    height: 28px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+}
+
+/* Botón flotante del chatbot en móviles */
+@media (max-width: 767.98px) {
+  #btnAbrirChatbot.chatbot-toggle {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 1001;
+    width: 42px;
+    height: 42px;
+    background-color: var(--bs-primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+}
+
 #main-content {
   flex-grow: 1;
   padding: 2rem;
@@ -661,6 +719,28 @@ body.modo-oscuro #sidebar .nav-link.active {
 /* ===== Transiciones suaves para todo ===== */
 body, #sidebar, .navbar, #main-content {
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===== calendario ===== */
+body.modo-oscuro #calendarioEmocional .fc {
+  background-color: var(--color-blanco);
+  color: var(--color-secundario);
+}
+
+body.modo-oscuro #calendarioEmocional .fc-toolbar-title,
+body.modo-oscuro #calendarioEmocional .fc-col-header-cell-cushion,
+body.modo-oscuro #calendarioEmocional .fc-daygrid-day-number {
+  color: var(--color-secundario);
+}
+
+body.modo-oscuro #calendarioEmocional .fc-button {
+  background-color: var(--color-primario) !important;
+  color: var(--color-fondo) !important;
+}
+
+body.modo-oscuro #calendarioEmocional .fc-button:hover {
+  background-color: var(--color-secundario) !important;
+  color: var(--color-fondo) !important;
 }
 
 /* ===== Tour ===== */
@@ -766,4 +846,57 @@ body, #sidebar, .navbar, #main-content {
   border-radius: 8px;
   outline: none;
   font-size: 14px;
+}
+
+/* Título del calendario */
+#calendarioEmocional .fc-toolbar-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-secundario);
+}
+
+/* Botones del calendario */
+#calendarioEmocional .fc-button {
+  background-color: var(--bs-primary) !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 0.6rem !important;
+  padding: 0.4rem 1rem !important;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+#calendarioEmocional .fc-button:hover {
+  background-color: var(--color-elemento) !important;
+}
+
+/* Eventos dentro del calendario */
+#calendarioEmocional .fc-daygrid-event {
+  font-size: 0.85rem;
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* Números de los días */
+#calendarioEmocional .fc-daygrid-day-number {
+  font-weight: 500;
+  color: var(--color-secundario);
+  font-size: 0.85rem;
+  padding-right: 4px;
+  text-decoration: none !important;
+}
+
+/* Encabezado de días (Lun, Mar...) */
+#calendarioEmocional .fc-col-header-cell-cushion {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-secundario);
+  text-decoration: none !important;
+}
+
+/* Espaciado general y borde de la tabla */
+#calendarioEmocional .fc-scrollgrid,
+#calendarioEmocional .fc-theme-standard .fc-scrollgrid {
+  border: none;
 }
