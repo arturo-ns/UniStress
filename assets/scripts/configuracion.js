@@ -1,4 +1,6 @@
 import { notificarUsuario } from './notificacion.js';
+import { Traducir } from './traductor.js';
+import { traducciones } from './i18n.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   inicializarConfiguracion();
@@ -32,15 +34,51 @@ function colorAcento() {
   });
 }
 
-/* ========== 3. Idioma (visual temporal) ========== */
+/* ========== 3. Idioma ========== */
 function selectorIdioma() {
   const selector = document.getElementById('selectorIdioma');
   if (!selector) return;
 
+  // Cargar el idioma guardado al iniciar
+  const idiomaGuardado = localStorage.getItem('idioma') || 'es';
+  selector.value = idiomaGuardado;
+  Traducir(idiomaGuardado);
+
   selector.addEventListener('change', () => {
-    const idioma = selector.value;
-    notificarUsuario(`Idioma cambiado a: ${idioma === 'es' ? 'Español' : 'English'}`);
-  });
+  const idioma = selector.value;
+  localStorage.setItem('idioma', idioma);
+  Traducir(idioma);
+  notificarUsuario(`Idioma cambiado a: ${idioma === 'es' ? 'Español' : 'English'}`);
+
+  // Regenerar las preguntas del test
+  const contenedorPreguntas = document.getElementById('preguntasTest');
+  if (contenedorPreguntas) {
+    contenedorPreguntas.innerHTML = '';
+    const preguntas = traducciones[idioma].test.preguntas;
+    preguntas.forEach((texto, index) => {
+      const num = index + 1;
+      const grupo = document.createElement('div');
+      grupo.classList.add('mb-3');
+
+      const opciones = Array.from({ length: 5 }, (_, i) => {
+        const valor = i + 1;
+        return `
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="pregunta${num}" id="p${num}_${valor}" value="${valor}" required>
+            <label class="form-check-label" for="p${num}_${valor}">${valor}</label>
+          </div>
+        `;
+      }).join('');
+
+      grupo.innerHTML = `
+        <label class="form-label"><strong>${num}.</strong> ${texto}</label><br/>
+        ${opciones}
+      `;
+      contenedorPreguntas.appendChild(grupo);
+    });
+  }
+});
+
 }
 
 /* ========== 4. Notificaciones ========== */
@@ -76,3 +114,5 @@ function eliminarCuenta() {
     }
   });
 }
+
+
