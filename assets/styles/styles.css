@@ -125,6 +125,11 @@ body {
 /* ========================================
    Cards modernas - sección funcionalidades
    ======================================== */
+
+#funcionalidades {
+  background-color: var(--color-fondo);
+}
+
 .section-full .card {
   background-color: var(--color-blanco);
   border: 1px solid var(--borde-claro);
@@ -160,23 +165,73 @@ body {
 }
 
 /* ========================================
-   Estilos para testimonios (blockquote)
+   Estilos para testimonios
    ======================================== */
-.blockquote {
-  background-color: var(--color-fondo);
-  border-left: 5px solid var(--color-primario);
-  padding: 1.5rem;
-  font-style: italic;
-  font-size: 1.05rem;
-  box-shadow: var(--sombra-suave);
-  border-radius: 8px;
-  color: var(--color-secundario);
+
+.testimonial-row {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 3rem 2rem;
+  margin-bottom: 4rem;
 }
 
-.blockquote-footer {
+.testimonial-item {
+  text-align: center;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.testimonial-item::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 20%;
+  height: 60%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, #e9ecef, transparent);
+}
+
+.testimonial-item:last-child::after {
+  display: none;
+}
+
+.testimonial-text {
+  font-size: 1rem;
+  line-height: 1.6;
   color: var(--color-secundario);
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--color-primario);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
   font-weight: 600;
+  margin: 0 auto 1rem;
+}
+
+.user-name {
+  font-weight: 600;
+  color: var(--color-secundario);
+  margin-bottom: 0.25rem;
+}
+
+.user-role {
+  color: var(--color-secundario);
   font-size: 0.9rem;
+}
+
+.stars {
+  color: var(--color-primario);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
 }
 
 
