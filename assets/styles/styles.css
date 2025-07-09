@@ -624,6 +624,23 @@ footer .d-flex a:hover .social-icon {
   }
 }
 
+.grafico-emociones-container {
+  position: relative;
+  width: 100%;
+  height: 300px; /* Altura fija y controlada */
+}
+
+@media (max-width: 768px) {
+  .grafico-emociones-container {
+    height: 250px;
+  }
+}
+
+#graficoEmociones {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 #main-content {
   flex-grow: 1;
   padding: 2rem;
