@@ -1,6 +1,5 @@
 import { supabase } from './utils.js';
 import { notificarUsuario } from './notificacion.js';
-import { recursosPsicoeducativos } from './recursos.js';
 
 let graficoEmocionalInstance = null;
 export function registroEmocional() {
@@ -39,16 +38,19 @@ export function registroEmocional() {
     const desde = `${hoyStr}T00:00:00`;
     const hasta = `${hoyStr}T23:59:59`;
 
-    // Verificar si ya registro su emocion hoy (según hora local)
-    const { data: existente } = await supabase
-      .from('estadoEmocional')
-      .select('id')
-      .eq('userId', userId)
-      .gte('created_at', desde)
-      .lte('created_at', hasta)
-      .maybeSingle();
-    
-    if (existente) {
+    const { data: existentes, error } = await supabase
+    .from('estadoEmocional')
+    .select('id')
+    .eq('userId', userId)
+    .gte('created_at', desde)
+    .lte('created_at', hasta);
+
+    if (error) {
+      console.error('❌ Error al verificar emoción existente:', error.message);
+      return;
+    }
+
+    if (existentes.length > 0) {
       notificarUsuario('Ya registraste una emoción hoy.');
       return;
     }
@@ -70,10 +72,11 @@ export function registroEmocional() {
 
     notificarUsuario('¡Emoción registrada con éxito!');
     form.reset();
-
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
     await graficoEmociones();
     await recomendacionesPersonalizadas();
-    await recursosPsicoeducativos();
   });
 }
 
@@ -205,6 +208,50 @@ function valorEmocion(valor) {
   return mapa[valor] ?? valor;
 }
 
+export function descargarHistorialEmociones() {
+  document.getElementById('btnDescargarHistorial')?.addEventListener('click', async () => {
+    const { data: session } = await supabase.auth.getUser();
+    const userId = session?.user?.id;
+    if (!userId) return;
+
+    const { data, error } = await supabase
+      .from('estadoEmocional')
+      .select('emocion, comentario, created_at')
+      .eq('userId', userId)
+      .order('created_at', { ascending: true });
+
+    if (error || !data || data.length === 0) {
+      alert('No hay datos para exportar.');
+      return;
+    }
+
+    // CSV: encabezado y filas
+    const encabezado = ['Fecha', 'Emoción', 'Comentario'];
+    const filas = data.map(reg => [
+      new Date(reg.created_at).toLocaleDateString(),
+      reg.emocion,
+      (reg.comentario || '').replace(/\n/g, ' ').replace(/"/g, '')
+    ]);
+
+    const csvContenido = [encabezado, ...filas]
+      .map(fila => fila.map(val => `${val}`).join(';'))
+      .join('\n');
+
+    const blob = new Blob(
+      ["\uFEFF" + csvContenido],
+      { type: 'text/csv;charset=utf-8;' }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'historial_emocional.csv';
+    link.click();
+    URL.revokeObjectURL(url);
+  });
+}
+
+
 export async function recomendacionesPersonalizadas() {
   const { data: sessionData } = await supabase.auth.getSession();
   const userId = sessionData?.session?.user?.id;
@@ -252,3 +299,5 @@ export async function recomendacionesPersonalizadas() {
     </div>
   `;
 }
+
+
