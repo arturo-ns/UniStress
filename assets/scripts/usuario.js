@@ -497,6 +497,83 @@ export function manejarEdicionPerfil() {
   });
 }
 
+document.addEventListener('DOMContentLoaded', async () => {
+  const calendarEl = document.getElementById('calendarioEmocional');
+  if (!calendarEl) return;
+
+  const { data: sessionData } = await supabase.auth.getSession();
+  const userId = sessionData?.session?.user?.id;
+  if (!userId) return;
+
+  // Obtener datos emocionales del usuario
+  const { data, error } = await supabase
+    .from('estadoEmocional')
+    .select('emocion, comentario, created_at')
+    .eq('userId', userId);
+
+  if (error || !data) return;
+
+  // Colores por emoción
+  const obtenerColorPorEmocion = emocion => {
+    const colores = {
+      Feliz: '#28a745',
+      Triste: '#6c757d',
+      Enojado: '#dc3545',
+      Ansioso: '#fd7e14',
+      Neutral: '#17a2b8'
+    };
+    return colores[emocion] || '#6c757d';
+  };
+
+  // Crear eventos
+  const eventos = data.map(entry => {
+    const color = obtenerColorPorEmocion(entry.emocion);
+    const fecha = entry.created_at.split('T')[0];
+    const emoji = {
+      Feliz: '😊',
+      Triste: '😢',
+      Enojado: '😠',
+      Ansioso: '😨',
+      Neutral: '😐'
+    }[entry.emocion] || '😐';
+
+    return {
+      title: `${emoji} ${entry.emocion}`,
+      start: fecha,
+      allDay: true,
+      backgroundColor: color,
+      borderColor: color,
+      textColor: '#fff',
+      extendedProps: {
+        comentario: entry.comentario || ''
+      }
+    };
+  });
+
+  // Inicializar FullCalendar
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    height: 'auto',
+    locale: 'es',
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth'
+    },
+    events: eventos,
+    eventDidMount: info => {
+      if (info.event.extendedProps.comentario) {
+        const tooltip = document.createElement('div');
+        tooltip.className = 'fc-tooltip';
+        tooltip.textContent = info.event.extendedProps.comentario;
+        info.el.setAttribute('title', info.event.extendedProps.comentario);
+      }
+    }
+  });
+
+  calendar.render();
+});
+
 /* ========== 6. Cerrar sesión ========== */
 export function manejarCerrarSesion() {
   const btn = document.getElementById('btnCerrarSesion');
