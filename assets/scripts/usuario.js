@@ -177,6 +177,10 @@ export async function iniciarTourIntroJS() {
           intro: '📈 Aquí verás un gráfico con el historial de tus emociones. Te ayuda a reflexionar sobre tu evolución.',
         },
         {
+          element: '#btnDescargarHistorial',
+          intro: '📥 Puedes descargar tu historial emocional en formato CSV para revisarlo cuando quieras.',
+        },
+        {
           element: '#recomendacionesEmocionales',
           intro: '💡 Recibe recomendaciones personalizadas basadas en cómo te has sentido.',
         }
