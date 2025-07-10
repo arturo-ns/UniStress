@@ -108,6 +108,14 @@ export async function iniciarTourIntroJS() {
         {
           element: '[data-bs-target="#modalEditarPerfil"]',
           intro: '✏️ Si deseas cambiar tus datos como nombre o carrera, puedes hacerlo aquí.',
+        },
+        {
+          element: '#termometro-emocional-container',
+          intro: '🌡️ Este es tu termómetro emocional. Muestra el promedio de tus emociones recientes de forma visual.',
+        },
+        {
+          element: '#calendarioEmocional',
+          intro: '📅 Este es tu calendario emocional. Aquí verás los días en que registraste tus emociones, ayudándote a visualizar tu constancia.',
         }
       ],
     },
